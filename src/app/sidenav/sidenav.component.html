@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" #sidenav>
+    <mat-nav-list>
+      <mat-list-item [routerLink]="'welcome'" routerLinkActive="mdc-list-item--activated">
+        <mat-icon>home</mat-icon>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'books'" routerLinkActive="mdc-list-item--activated">
+        <mat-icon>books</mat-icon>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
