@@ -1,1 +1,36 @@
-<p>books works!</p>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="datasource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="bookId">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.bookId}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="isbn13">
+      <th mat-header-cell *matHeaderCellDef> Isbn13 </th>
+      <td mat-cell *matCellDef="let element"> {{element.isbn13}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef> Author </th>
+      <td mat-cell *matCellDef="let element"> {{element.author.name}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="year">
+      <th mat-header-cell *matHeaderCellDef> Year </th>
+      <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+<!--  <mat-paginator [pageSizeOptions]="[5, 10, 20]"-->
+<!--                 showFirstLastButtons-->
+<!--                 aria-label="Select page of periodic elements">-->
+<!--  </mat-paginator>-->
+</div>

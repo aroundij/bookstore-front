@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import {WelcomeComponent} from "./welcome/welcome.component";
+import {BooksComponent} from "./books.component";
+import {EditBookComponent} from "./edit-book/edit-book.component";
+import {AddBookComponent} from "./add-book/add-book.component";
+import {BookDetailComponent} from "./book-detail/book-detail.component";
 
 export const ROUTES: Routes = [
-  {path: "", component: WelcomeComponent},
-  {
-    path: "books",
-    loadChildren: () => import('./books/books.module').then(mod => mod.BooksModule)
-  }
+  {path: "", component: BooksComponent},
+  {path: "edit/:isbn13",  component: EditBookComponent},
+  {path: "create", component: AddBookComponent},
+  {path: "detail/:isbn13", component: BookDetailComponent}
 ]
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forChild(ROUTES)
   ]
 })
-export class AppRoutingModule { }
+export class BooksRoutingModule { }

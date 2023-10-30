@@ -1,0 +1,13 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+app-toolbar {
+  flex-grow: 1;
+}
+.main-container {
+  flex-grow: 50;
+  width: 100%;
+}
