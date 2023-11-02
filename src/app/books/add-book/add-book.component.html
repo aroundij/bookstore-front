@@ -1,1 +1,83 @@
-<p>add-book works!</p>
+<mat-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="newBookForm">
+    <form class="form-container" [formGroup]="newBookForm">
+      <ng-template matStepLabel>Book details</ng-template>
+      <mat-form-field>
+        <mat-label>Isbn 13</mat-label>
+        <input matInput placeholder="Isbn13" formControlName="isbn13">
+        <mat-error>Invalid isbn13 must start with 13- and have exactly 13 characters</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title">
+        <mat-error>Invalid Title: max characters is 30, min characters is 3</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Year</mat-label>
+        <input matInput type="number" placeholder="Year" formControlName="year">
+        <mat-error>Invalid year</mat-error>
+      </mat-form-field>
+      <div class="btn-container">
+        <button mat-button matStepperNext>Next<mat-icon>keyboard_arrow_right</mat-icon></button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="newAuthorForm" label="Author details">
+    <form class="form-container" [formGroup]="newAuthorForm">
+      <mat-form-field>
+        <mat-label>Author name</mat-label>
+        <input matInput formControlName="name" placeholder="Author name">
+        <mat-error>Invalid Name : max characters is 30, min characters is 3</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Birthdate</mat-label>
+        <input matInput formControlName="birthdate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Activity</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let activity of Object.values(ActivityEnum)" [value]="activity">
+            {{activity}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-chip-list">
+        <mat-label>Favorite titles</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter favorite title">
+          <mat-chip-row *ngFor="let favTitle of favoriteTitles; let i = index"
+                        (removed)="remove(i)"
+                        [editable]="true"
+                        (edited)="edit(i, $event)"
+                        [aria-description]="'press enter to edit ' + favTitle">
+            {{favTitle}}
+            <button matChipRemove [attr.aria-label]="'remove ' + favTitle">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="add favorite title..."
+                 [matChipInputFor]="chipGrid"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)"/>
+          <button mat-icon-button (click)="removeAll()" [attr.aria-label]="'remove All'">
+            <mat-icon>delete-forever</mat-icon>
+          </button>
+        </mat-chip-grid>
+      </mat-form-field>
+      <div class="btn-container">
+        <button mat-button matStepperPrevious>Back<mat-icon>keyboard_arrow_left</mat-icon></button>
+        <button mat-button matStepperNext>Next<mat-icon>keyboard_arrow_right</mat-icon></button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div class="btn-container">
+      <button mat-button matStepperPrevious>Back<mat-icon>keyboard_arrow_left</mat-icon></button>
+      <button mat-button (click)="submit()">Submit<mat-icon>check</mat-icon></button>
+    </div>
+  </mat-step>
+</mat-stepper>

@@ -13,7 +13,6 @@ export class SidenavComponent implements AfterViewInit {
   constructor(private _sidenavService: SidenavService) {
   }
   ngAfterViewInit(): void {
-    console.debug(this.sidenav);
     this._sidenavService.setSidenav(this.sidenav)
   }
 

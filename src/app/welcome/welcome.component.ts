@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {provideImgixLoader} from "@angular/common";
 
 @Component({
   selector: 'app-welcome',

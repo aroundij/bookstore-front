@@ -1,7 +1,7 @@
 export interface Author {
-  authorId: string,
+  authorId?: string,
   name: string,
   birthdate: Date,
   sport: string,
-  preferedTitles: string
+  preferredTitles?: string
 }

@@ -1,0 +1,15 @@
+.form-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding: 2em;
+}
+
+mat-stepper {
+  justify-self: center;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-around;
+}
