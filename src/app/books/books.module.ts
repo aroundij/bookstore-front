@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {BooksComponent} from './books.component';
 import {AddBookComponent} from './add-book/add-book.component';
 import {EditBookComponent} from './edit-book/edit-book.component';
