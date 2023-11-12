@@ -4,6 +4,7 @@ export interface Book {
   bookId?: string,
   isbn13: string,
   title: string,
-  year: number,
+  publishDate: Date,
+  price: number
   author: Author
 }
