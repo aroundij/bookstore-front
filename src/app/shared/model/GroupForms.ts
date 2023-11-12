@@ -1,5 +1,6 @@
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivityEnum} from "../enums/ActivityEnum";
+import {Book} from "./Book";
 
 export class NewBookFormGroup {
   isbn13: FormControl<string | null> =
@@ -10,8 +11,6 @@ export class NewBookFormGroup {
     new FormControl<Date>(new Date("2000-01-01"), [Validators.required]);
   price: FormControl<number | null> =
     new FormControl<number | null>(Number.NaN, [Validators.required, Validators.max(Number.MAX_VALUE), Validators.min(Number.MIN_VALUE)]);
-  // author: FormGroup<NewAuthorFormGroup> =
-  //   new FormGroup<NewAuthorFormGroup>(new NewAuthorFormGroup())
 }
 
 export class NewAuthorFormGroup {
@@ -23,4 +22,14 @@ export class NewAuthorFormGroup {
     new FormControl<ActivityEnum>(ActivityEnum.NO_ACTIVITY, [Validators.required, Validators.maxLength(20)]);
   preferredTitle: FormControl =
     new FormControl<string>("");
+}
+
+export class EditBookFormGroup extends NewBookFormGroup {
+  bookId: FormControl<string | null> =
+    new FormControl<string | null>(null, [Validators.required, Validators.max(Number.MAX_VALUE), Validators.min(Number.MIN_VALUE)]);
+}
+
+export class EditAuthorFormGroup extends NewAuthorFormGroup {
+  authorId: FormControl<string | null> =
+    new FormControl<string | null>(null, [Validators.required, Validators.max(Number.MAX_VALUE), Validators.min(Number.MIN_VALUE)]);
 }

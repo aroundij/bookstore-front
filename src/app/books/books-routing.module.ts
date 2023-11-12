@@ -4,13 +4,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {BooksComponent} from "./books.component";
 import {EditBookComponent} from "./edit-book/edit-book.component";
 import {AddBookComponent} from "./add-book/add-book.component";
-import {BookDetailComponent} from "./book-detail/book-detail.component";
 
 export const ROUTES: Routes = [
   {path: "", component: BooksComponent},
   {path: "edit/:isbn13",  component: EditBookComponent},
   {path: "create", component: AddBookComponent},
-  {path: "detail/:isbn13", component: BookDetailComponent}
+  {path: "detail/:isbn13", component: EditBookComponent}
 ]
 
 @NgModule({

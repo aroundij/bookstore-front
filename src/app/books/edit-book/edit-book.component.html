@@ -1,1 +1,80 @@
-<p>edit-book works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Book</mat-card-title>
+    <mat-card-subtitle>Book details</mat-card-subtitle>
+  </mat-card-header>
+  <form class="form-container" [formGroup]="editBookForm">
+    <mat-form-field>
+      <mat-label>Isbn 13</mat-label>
+      <input matInput placeholder="Isbn13" formControlName="isbn13">
+      <mat-error>Invalid isbn13 must start with 13- and have exactly 13 characters</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" formControlName="title">
+      <mat-error>Invalid Title: max characters is 30, min characters is 3</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Publish Date</mat-label>
+      <input matInput formControlName="publishDate" [matDatepicker]="picker_publish_date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker_publish_date"></mat-datepicker-toggle>
+      <mat-datepicker #picker_publish_date></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input matInput type="number" placeholder="Price" formControlName="price">
+      <mat-error>Invalid isbn13 must be a valid price</mat-error>
+    </mat-form-field>
+  </form>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Author</mat-card-title>
+    <mat-card-subtitle>Author details</mat-card-subtitle>
+  </mat-card-header>
+  <form class="form-container" [formGroup]="editAuthorForm">
+    <mat-form-field>
+      <mat-label>Author name</mat-label>
+      <input matInput formControlName="name" placeholder="Author name">
+      <mat-error>Invalid Name : max characters is 30, min characters is 3</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Birthdate</mat-label>
+      <input matInput formControlName="birthdate" [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Activity</mat-label>
+      <mat-select formControlName="sport">
+        <mat-option *ngFor="let activity of Object.values(ActivityEnum)" [value]="activity">
+          {{activity}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-chip-list">
+      <mat-label>Favorite titles</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Enter favorite title" [disabled]="this.editModeEnum !== EditModeEnum.EDIT">
+        <mat-chip-row *ngFor="let favTitle of favoriteTitles; let i = index"
+                      (removed)="remove(i)"
+                      [editable]="true"
+                      (edited)="edit(i, $event)"
+                      [aria-description]="'press enter to edit ' + favTitle">
+          {{favTitle}}
+          <button matChipRemove [attr.aria-label]="'remove ' + favTitle">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="add favorite title..."
+               [matChipInputFor]="chipGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)"/>
+        <button mat-icon-button (click)="removeAll()" [attr.aria-label]="'remove All'">
+          <mat-icon>delete-forever</mat-icon>
+        </button>
+      </mat-chip-grid>
+    </mat-form-field>
+  </form>
+</mat-card>
