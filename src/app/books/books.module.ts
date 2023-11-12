@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule, DatePipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {BooksComponent} from './books.component';
 import {AddBookComponent} from './add-book/add-book.component';
 import {EditBookComponent} from './edit-book/edit-book.component';
@@ -18,13 +18,17 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatCardModule} from "@angular/material/card";
+import {BookDetailsCellRendererComponent} from './isbn13-cell-renderer/book-details-cell-renderer.component';
+import {RouterLink} from "@angular/router";
 
 @NgModule({
   declarations: [
     BooksComponent,
     AddBookComponent,
     EditBookComponent,
-    BookDetailComponent
+    BookDetailComponent,
+    BookDetailsCellRendererComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatNativeDateModule,
     MatSelectModule,
     MatChipsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule,
+    RouterLink
   ]
 })
 export class BooksModule { }

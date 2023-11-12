@@ -15,6 +15,10 @@ export class BooksService {
     return this._http.get<Book[]>(this.booksPath)
   }
 
+  getBook(isbn13: string): Observable<Book> {
+    return this._http.get<Book>(`${this.booksPath}/${isbn13}`)
+  }
+
   createBook(book: Book) {
     return this._http.post(this.booksPath, book);
   }

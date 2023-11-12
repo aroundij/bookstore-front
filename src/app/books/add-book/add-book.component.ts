@@ -63,14 +63,14 @@ export class AddBookComponent implements OnInit, OnDestroy {
 
   createBook() {
     let author: Author = {
-      authorId: undefined,
+      authorId: null,
       name: this.newAuthorForm.get("name")?.value!,
       birthdate: this.newAuthorForm.get("birthdate")?.value!,
       sport: this.newAuthorForm.get("sport")?.value!,
       preferredTitles: this.favoriteTitles.join(", ")
     }
     let book: Book = {
-      bookId: undefined,
+      bookId: null,
       isbn13: this.newBookForm.get("isbn13")?.value!,
       title: this.newBookForm.get("title")?.value!,
       publishDate: this.newBookForm.get("publishDate")?.value!,

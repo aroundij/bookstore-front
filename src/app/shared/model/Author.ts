@@ -1,5 +1,5 @@
 export interface Author {
-  authorId?: string,
+  authorId: string | null,
   name: string,
   birthdate: Date,
   sport: string,

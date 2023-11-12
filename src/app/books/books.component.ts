@@ -6,6 +6,7 @@ import {ColDef, GridOptions, GridReadyEvent} from "ag-grid-community";
 import {AgGridAngular} from "ag-grid-angular";
 import {Router} from "@angular/router";
 import {CurrencyPipe} from "@angular/common";
+import {BookDetailsCellRendererComponent} from "./isbn13-cell-renderer/book-details-cell-renderer.component";
 
 @Component({
   selector: 'app-books',
@@ -34,7 +35,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     private currencyPipe: CurrencyPipe) {
     this.columnDefs = [
       {field: "bookId"},
-      {field: "isbn13", headerName: "ISBN 13"},
+      {field: "isbn13", headerName: "ISBN 13", cellRenderer: BookDetailsCellRendererComponent},
       {field: "title", headerName: "Title"},
       {field: "author.name"},
       {field: "publishDate", headerName: "Published on"},
@@ -84,4 +85,5 @@ export class BooksComponent implements OnInit, OnDestroy {
   navigate_to_new_book() {
     this._router.navigate(["books/create"])
   }
+
 }
