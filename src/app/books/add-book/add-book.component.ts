@@ -73,7 +73,8 @@ export class AddBookComponent implements OnInit, OnDestroy {
       bookId: undefined,
       isbn13: this.newBookForm.get("isbn13")?.value!,
       title: this.newBookForm.get("title")?.value!,
-      year: this.newBookForm.get("year")?.value!,
+      publishDate: this.newBookForm.get("publishDate")?.value!,
+      price: this.newBookForm.get("price")?.value!,
       author: author
     }
 

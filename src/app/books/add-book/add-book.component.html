@@ -13,9 +13,15 @@
         <mat-error>Invalid Title: max characters is 30, min characters is 3</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Year</mat-label>
-        <input matInput type="number" placeholder="Year" formControlName="year">
-        <mat-error>Invalid year</mat-error>
+        <mat-label>Publish Date</mat-label>
+        <input matInput formControlName="publishDate" [matDatepicker]="picker_publish_date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker_publish_date"></mat-datepicker-toggle>
+        <mat-datepicker #picker_publish_date></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input matInput type="number" placeholder="Price" formControlName="price">
+        <mat-error>Invalid isbn13 must be a valid price</mat-error>
       </mat-form-field>
       <div class="btn-container">
         <button mat-button matStepperNext>Next<mat-icon>keyboard_arrow_right</mat-icon></button>
@@ -37,7 +43,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Activity</mat-label>
-        <mat-select>
+        <mat-select formControlName="sport">
           <mat-option *ngFor="let activity of Object.values(ActivityEnum)" [value]="activity">
             {{activity}}
           </mat-option>
