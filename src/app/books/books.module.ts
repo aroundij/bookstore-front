@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {BooksComponent} from './books.component';
 import {AddBookComponent} from './add-book/add-book.component';
 import {EditBookComponent} from './edit-book/edit-book.component';
-import {BookDetailComponent} from './book-detail/book-detail.component';
 import {SharedModule} from "../shared/shared.module";
 import {BooksRoutingModule} from "./books-routing.module";
 import {HttpClientModule} from "@angular/common/http";
@@ -21,13 +20,13 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatCardModule} from "@angular/material/card";
 import {BookDetailsCellRendererComponent} from './isbn13-cell-renderer/book-details-cell-renderer.component';
 import {RouterLink} from "@angular/router";
+import {TabsService} from "../shared/component/tabs/tabs.service";
 
 @NgModule({
   declarations: [
     BooksComponent,
     AddBookComponent,
     EditBookComponent,
-    BookDetailComponent,
     BookDetailsCellRendererComponent
   ],
   imports: [
@@ -48,6 +47,9 @@ import {RouterLink} from "@angular/router";
     MatSnackBarModule,
     MatCardModule,
     RouterLink
+  ],
+  providers:[
+    TabsService
   ]
 })
 export class BooksModule { }

@@ -1,12 +1,13 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Book} from "../shared/model/Book";
 import {BooksService} from "./books.service";
 import {Observable, Subscription} from "rxjs";
-import {ColDef, GridOptions, GridReadyEvent} from "ag-grid-community";
+import {CellClickedEvent, ColDef, GridOptions, GridReadyEvent} from "ag-grid-community";
 import {AgGridAngular} from "ag-grid-angular";
 import {Router} from "@angular/router";
 import {CurrencyPipe} from "@angular/common";
-import {BookDetailsCellRendererComponent} from "./isbn13-cell-renderer/book-details-cell-renderer.component";
+import {EditBookComponent} from "./edit-book/edit-book.component";
+import {TabsService} from "../shared/component/tabs/tabs.service";
 
 @Component({
   selector: 'app-books',
@@ -14,7 +15,7 @@ import {BookDetailsCellRendererComponent} from "./isbn13-cell-renderer/book-deta
   styleUrls: ['./books.component.css'],
   providers: [CurrencyPipe]
 })
-export class BooksComponent implements OnInit, OnDestroy {
+export class BooksComponent implements OnInit, AfterViewInit, OnDestroy {
   private booksSubscription!: Subscription;
 
   // Angular Mat
@@ -27,24 +28,37 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   public rowData$!: Observable<Book[]>;
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+  @ViewChild("agGridAngular") agGridAngularElementRef!: ElementRef;
 
 
   constructor(
     private _booksService: BooksService,
-    private _router:Router,
-    private currencyPipe: CurrencyPipe) {
+    private _router: Router,
+    private currencyPipe: CurrencyPipe,
+    private _tabsService: TabsService
+  ) {
     this.columnDefs = [
-      {field: "bookId"},
-      {field: "isbn13", headerName: "ISBN 13", cellRenderer: BookDetailsCellRendererComponent},
+      {field: "bookId", headerName: "#"},
+      {
+        field: "isbn13",
+        headerName: "ISBN 13",
+        cellClass: "bs-cell-link",
+        onCellClicked: (event) => this.isbn13CellClick(event)
+      },
       {field: "title", headerName: "Title"},
       {field: "author.name"},
       {field: "publishDate", headerName: "Published on"},
-      {field: "price", valueFormatter: data =>
-          this.currencyPipe.transform(data.value, undefined, "symbol-narrow", "5.3-4")!},
+      {
+        field: "price", valueFormatter: data =>
+          this.currencyPipe.transform(data.value, undefined, "symbol-narrow", "5.3-4")!
+      },
     ]
   }
-  ngOnInit(): void {
 
+  ngAfterViewInit(): void {
+    }
+
+  ngOnInit(): void {
     this.gridOptions = {
       defaultColDef: {
         resizable: true,
@@ -57,6 +71,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       embedFullWidthRows: true,
       domLayout: "autoHeight"
     };
+    this.rowData$ = this._booksService.getBooks();
 
   }
 
@@ -65,12 +80,13 @@ export class BooksComponent implements OnInit, OnDestroy {
   }
 
 
-  onGridReady($event: GridReadyEvent<any>) {
-    const allColumnIds: any[] = [];
-    this.rowData$ = this._booksService.getBooks();
-    this.columnDefs.forEach(cd => allColumnIds.push(cd.field))
-    this.agGrid.gridOptions
-      ?.columnApi?.autoSizeColumns(allColumnIds, false);
+  onDataLoaded($event: GridReadyEvent<any>) {
+
+    $event.columnApi.autoSizeAllColumns(false)
+    let gridWidth = 0;
+    $event.columnApi.getColumns()?.forEach(c => {
+      gridWidth+=c.getActualWidth()
+    })
   }
 
   clearFilter() {
@@ -84,6 +100,12 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   navigate_to_new_book() {
     this._router.navigate(["books/create"])
+  }
+
+  isbn13CellClick(event: CellClickedEvent<any, any>) {
+    this._tabsService.createTab(
+      {uniqueId: event.value, title: event.value, component: EditBookComponent, inputs: {isbn13: event.value}}
+    )
   }
 
 }

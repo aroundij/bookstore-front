@@ -1,17 +1,24 @@
 <!-- Button to clear selection -->
-<div class="container">
-  <div class="btn-container">
-    <button mat-button (click)="clearFilter()">Clear filter<mat-icon>filter_list_off</mat-icon></button>
-    <button mat-button (click)="navigate_to_new_book()">New Book<mat-icon>add</mat-icon></button>
+<app-tabs mainTabLabel="Main">
+  <div class="container">
+
+    <div class="grid-container">
+      <div class="btn-container">
+        <button mat-raised-button color="primary" (click)="clearFilter()">Clear filter
+          <mat-icon>filter_list_off</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" (click)="navigate_to_new_book()">New Book
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <ag-grid-angular #agGridAngular
+        class="ag-theme-material"
+        [gridOptions]="gridOptions"
+        [rowData]="rowData$ | async"
+        (firstDataRendered)="onDataLoaded($event)"
+      ></ag-grid-angular>
+    </div>
   </div>
-  <div class="grid-container">
-  <ag-grid-angular
-    class="ag-theme-material"
-    [gridOptions]="gridOptions"
-    [rowData]="rowData$ | async"
-    (gridReady)="onGridReady($event)"
-  ></ag-grid-angular>
-  </div>
-</div>
+</app-tabs>
 <!-- AG Grid Angular Component -->
 

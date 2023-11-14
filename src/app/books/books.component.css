@@ -1,14 +1,19 @@
 .container {
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  justify-content: center;
 }
 
 .btn-container {
-  flex: 1 1 auto;
   display: flex;
   justify-content: space-around;
 }
 .grid-container {
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 915px;
 }
+
+ag-grid-angular {
+  width: 915px;
+}
+
