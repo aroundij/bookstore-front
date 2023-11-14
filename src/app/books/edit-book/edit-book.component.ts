@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivityEnum} from "../../shared/enums/ActivityEnum";
 import {FormGroup} from "@angular/forms";
 import {EditAuthorFormGroup, EditBookFormGroup} from "../../shared/model/GroupForms";
@@ -25,7 +25,10 @@ export class EditBookComponent implements OnInit{
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   public addOnBlur = true;
 
-  public editModeEnum: EditModeEnum = EditModeEnum.READ;
+  @Input()
+  private isbn13?: string
+  @Input()
+  public editModeEnum?: EditModeEnum;
 
   constructor(
     private _booksService: BooksService,
@@ -41,16 +44,23 @@ export class EditBookComponent implements OnInit{
     this.editBookForm.disable();
     this.editAuthorForm.disable();
 
-    const isbn13 = this._activatedRoute.snapshot.params['isbn13'];
-    if(this._activatedRoute.snapshot.url
-      .find(urlSegment => urlSegment.path.includes(EditModeEnum.EDIT.toLowerCase()))) {
-      this.editModeEnum = EditModeEnum.EDIT;
-      this.editBookForm.enable();
-      this.editAuthorForm.enable();
+    // Get isbn13 from parent component
+    this.isbn13 = this.isbn13 ? this.isbn13 : this._activatedRoute.snapshot.params['isbn13'];
+    // Get editMode from parent component or default to READ
+    this.editModeEnum = this.editModeEnum ? this.editModeEnum : this.getEditModeFromUrl();
+
+    switch (this.editModeEnum) {
+      case EditModeEnum.EDIT:
+        this.editBookForm.enable()
+        this.editAuthorForm.enable()
+        break
+      case EditModeEnum.READ:
+        this.editBookForm.disable()
+        this.editAuthorForm.disable()
+        break
     }
 
-
-    this._booksService.getBook(isbn13).subscribe(book => {
+    this._booksService.getBook(this.isbn13!).subscribe(book => {
       this.editBookForm.controls.bookId.setValue(book.bookId)
       this.editBookForm.controls.title.setValue(book.title)
       this.editBookForm.controls.isbn13.setValue(book.isbn13)
@@ -78,6 +88,13 @@ export class EditBookComponent implements OnInit{
       return;
     this.favoriteTitles.push($event.value)
     $event.chipInput.clear();
+  }
+
+  private getEditModeFromUrl(): EditModeEnum {
+    const isUrlEdit =
+      this._activatedRoute.snapshot.url
+        .find(urlSegment => urlSegment.path.includes(EditModeEnum.EDIT.toLowerCase()))
+    return isUrlEdit ? EditModeEnum.EDIT : EditModeEnum.READ;
   }
 
   removeAll() {
